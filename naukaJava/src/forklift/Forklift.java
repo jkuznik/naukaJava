@@ -17,7 +17,7 @@ public class Forklift {
         Scanner scanner = new Scanner(System.in);
 
                                 //  WARTOŚCI DIAGRAMU Z PRZYKŁADU Robert_osp_2.6.6
- /*       diagram[0][0] = 1200;
+        diagram[0][0] = 1200;
         diagram[0][1] = 1050;
         diagram[0][2] = 650;
 
@@ -35,9 +35,9 @@ public class Forklift {
 
         foreheadDistance[0] = 500;
         foreheadDistance[1] = 600;
-        foreheadDistance[2] = 700;*/
+        foreheadDistance[2] = 700;
 
-        diagram[0][0] = 2000;
+        /*diagram[0][0] = 2000;
         diagram[0][1] = 1800;
         diagram[0][2] = 1600;
         diagram[0][3] = 1400;
@@ -91,7 +91,7 @@ public class Forklift {
         foreheadDistance[2] = 700;
         foreheadDistance[3] = 800;
         foreheadDistance[4] = 900;
-        foreheadDistance[5] = 1000;
+        foreheadDistance[5] = 1000;*/
 
 
 

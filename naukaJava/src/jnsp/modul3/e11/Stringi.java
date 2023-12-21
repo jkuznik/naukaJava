@@ -10,7 +10,7 @@ public class Stringi {
 
         int length = name.length();
 
-        String text = " Kurs-Jak nauczyc sie programowania ";
+        String text = " Kurąs-Jak nauczyc sie programowania ";
 
         System.out.println(length);
 

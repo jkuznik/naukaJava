@@ -1,8 +1,8 @@
-package jnsp.modul3.e15;
+package jnsp.modul3.e15Exercies;
 
 import java.util.Scanner;
 
-public class InstrukcjeWarunkowe {
+public class KlasyfikacjaOceny {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int number;
