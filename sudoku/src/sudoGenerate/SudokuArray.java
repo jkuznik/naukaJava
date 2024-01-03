@@ -1,6 +1,7 @@
 package sudoGenerate;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class SudokuArray {
 
@@ -10,20 +11,56 @@ public class SudokuArray {
     private int rowNumber = 0;
     private int columnNumber = 0;
     private int number;
-
     private boolean clean;
+    private boolean clean2;
+    private boolean clean3;
+    private boolean clean4;
+    private boolean ready=true;
+    Scanner scanner = new Scanner(System.in);
 
     Random random = new Random();
 
+    public void setValue(){
+        int row;
+        int column;
+        int value;
+        boolean exit=true;
+        String choice;
+        Scanner scanner1 = new Scanner(System.in);
+
+        do{
+           getTempArray();
+            System.out.println();
+            System.out.println("\tPodaj współrzędne pola które chcesz wpisać: ");
+            System.out.println("Rząd: ");
+            row = scanner1.nextInt();
+            System.out.println("Kolumna: ");
+            column = scanner1.nextInt();
+            System.out.println("Wartość: ");
+            value = scanner1.nextInt();
+            scanner1.nextLine();
+
+            finalArray[row-1][column-1] = value;
+            tempArray[row-1][column-1] = value;
+
+            System.out.println("Chcesz podać kolejną liczbę? [t/n]");
+            choice = scanner1.nextLine();
+            if (choice.equals("n")) {
+                exit = false;
+            }
+            System.out.println();
+
+        } while(exit);
+    }
     public void generateSudoku(){
 
         int attempt=0;
         long startTime = System.currentTimeMillis();
 
         do {
-            generateFinalSquare3x3(1);
-            generateFinalSquare3x3(5);
-            generateFinalSquare3x3(9);
+            generateTempSquare3x3(1);
+            generateTempSquare3x3(5);
+            generateTempSquare3x3(9);
             generateTempSquare3x3(3);
             generateTempSquare3x3(7);
 
@@ -63,15 +100,24 @@ public class SudokuArray {
             System.out.println();
         }
     }
+    /**     Wyświetlanie akutalnych wartości wszystkich pól Sudoku.
+     * */
 
     public void getTempArray(int setDifficult) {
+
+        int valueToClean = setDifficult/9;
         int counter=0;
 
         do {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
+
                     clean = random.nextBoolean();
-                    if (clean && counter < setDifficult && tempArray[i][j] != 0) {
+                    clean2 = random.nextBoolean();
+                    clean3 = random.nextBoolean();
+                    clean4 = random.nextBoolean();
+
+                    if (clean && clean2 && clean3 && clean4 && counter < setDifficult && tempArray[i][j] != 0) {
                         tempArray[i][j] = 0;
                         counter++;
                     }
@@ -90,7 +136,8 @@ public class SudokuArray {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(tempArray[i][j] + " ");
+                if(tempArray[i][j] == 0) System.out.print("  ");
+                else System.out.print(tempArray[i][j] + " ");
                 if (j % 3 == 2) {
                     System.out.print("|");
                 }
@@ -102,65 +149,103 @@ public class SudokuArray {
             System.out.println();
         }
     }
-    /**     Wyświetlanie akutalnych wartości wszystkich pól Sudoku.
+    /**     Wyświetlanie rozwiązywalną tablice Sudoku z określoną ilością pustych pól
      * */
 
-    public void generateFinalSquare3x3(int field) {
+    public boolean setFinalSquare3x3() {
 
-        rowNumber = ((field + 2) % 3) * 3;
-        columnNumber = ((field - 1) / 3) * 3;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+                    if (tempArray[i][j] == 0) {
+                        finalArray[i][j] = scanner.nextInt();
+                        tempArray[i][j] = finalArray[i][j];
+                        return true;
+                    } else {
+                        if(tempArray[i][j] == 10) System.out.print("x ");
+                        else System.out.print(tempArray[i][j] + " ");
 
-                number = random.nextInt(9) + 1;
-                if (possibleValue(number, field, rowNumber, columnNumber)) {
-                    finalArray[rowNumber][columnNumber] = number;
-                    tempArray[rowNumber][columnNumber] = number;
-                    columnNumber += 1;
-                } else {
-                    j--;
+                        if (j % 3 == 2) {
+                            System.out.print("|");
+                        }
+                    }
                 }
+                if (i % 3 == 2) {
+                    System.out.println();
+                    System.out.print("---------------------");
+                }
+                System.out.println();
             }
-            columnNumber = ((field - 1) / 3) * 3;
-            rowNumber += 1;
-        }
+        return false;
     }
     /**     Generowanie wartości dla każdego pola danego segmentu 3x3 zgodnie z zasadami Sudoku;
      *      wartości są przypisywane do końcowej tablicy wartości.*/
-//    public void generateTempSquare3x3(int field) {
-//
-//        int counter = 0;
-//
-//        rowNumber = ((field + 2) % 3) * 3;
-//        columnNumber = ((field - 1) / 3) * 3;
-//
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < 3; j++) {
-//
-//                number = random.nextInt(9) + 1;     // do zmiany, stworzyc algorytm sprawdzający możliwe wartości i losująćy tylko spośród tych liczb
-//
-//                if (possibleValue(number, field, rowNumber, columnNumber)) {
-//                    tempArray[rowNumber][columnNumber] = number;
-//                    columnNumber += 1;
-//                } else {
-//                    j--;
-//                    counter += 1;
-//                    if (counter == 200) {
-//                        counter = 0;
-//                        i = 0;
-//                        j = 0;
-//                        cleanSquare3x3(field);
-//                        columnNumber = ((field - 1) / 3) * 3;
-//                        rowNumber = ((field + 2) % 3) * 3;
-//                    }
-//                }
-//            }
-//            columnNumber = ((field - 1) / 3) * 3;
-//            rowNumber += 1;
-//        }
-//    }
+
     public void generateTempSquare3x3(int field) {
+
+               /* 5 3 4 | 6 7 8 | 9 1 2
+                6 7 2 | 1 9 5 | 3 4 8
+                1 9 8 | 3 4 2 | 5 6 7
+                ------+-------+------
+                8 5 9 | 7 6 1 | 4 2 3
+                4 2 6 | 8 5 3 | 7 9 1
+                7 1 3 | 9 2 4 | 8 5 6
+                ------+-------+------
+                9 6 1 | 5 3 7 | 2 8 4
+                2 8 7 | 4 1 9 | 6 3 5
+                3 4 5 | 2 8 6 | 1 7 9
+
+
+
+                5 3 0 | 0 7 0 | 0 0 0
+                6 0 0 | 1 9 5 | 0 0 0
+                0 9 8 | 0 0 0 | 0 6 0
+                ------+-------+------
+                8 0 0 | 0 6 0 | 0 0 3
+                4 0 0 | 8 0 3 | 0 0 1
+                7 0 0 | 0 2 0 | 0 0 6
+                ------+-------+------
+                0 6 0 | 0 0 0 | 2 8 0
+                0 0 0 | 4 1 9 | 0 0 5
+                0 0 0 | 0 8 0 | 0 7 9*/
+        finalArray[0][0] = 5;
+        finalArray[0][1] = 3;
+        finalArray[0][4] = 7;
+
+        finalArray[1][0] = 6;
+        finalArray[1][3] = 1;
+        finalArray[1][4] = 9;
+        finalArray[1][5] = 5;
+
+        finalArray[2][1] = 9;
+        finalArray[2][2] = 8;
+        finalArray[2][7] = 6;
+
+//        tempArray[3][0] = 8;
+//        tempArray[3][4] = 6;
+//        tempArray[3][8] = 3;
+//
+//        tempArray[4][0] = 4;
+//        tempArray[4][3] = 8;
+//        tempArray[4][5] = 3;
+//        tempArray[4][8] = 1;
+//
+//        tempArray[5][0] = 7;
+//        tempArray[5][4] = 2;
+//        tempArray[5][8] = 6;
+//
+//        tempArray[6][1] = 6;
+//        tempArray[6][6] = 2;
+//        tempArray[6][7] = 8;
+//
+//        tempArray[7][3] = 4;
+//        tempArray[7][4] = 1;
+//        tempArray[7][5] = 9;
+//        tempArray[7][8] = 5;
+//
+//        tempArray[8][4] = 8;
+//        tempArray[8][7] = 7;
+//        tempArray[8][8] = 9;
 
         int counter = 0;
         int counter2 =2;
@@ -171,24 +256,29 @@ public class SudokuArray {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
 
-                number = random.nextInt(9) + 1;     // do zmiany, stworzyc algorytm sprawdzający możliwe wartości i losująćy tylko spośród tych liczb
 
-                if (possibleValue(number, field, rowNumber, columnNumber)) {
-                    tempArray[rowNumber][columnNumber] = number;
-                    columnNumber += 1;
-                    counter=0;
-                } else {
-                    j--;
-                    counter += 1;
-                    if (counter == 40) {
+                if (tempArray[rowNumber][columnNumber] == 0 && finalArray[rowNumber][columnNumber]==0) {
+                    /**    Sprawdzanie wartości wprowadzonych przez uzytkowniak*/
+
+                    number = random.nextInt(9) + 1;     // do zmiany, stworzyc algorytm sprawdzający możliwe wartości i losująćy tylko spośród tych liczb
+
+                    if (possibleValue(number, field, rowNumber, columnNumber)) {
+                        tempArray[rowNumber][columnNumber] = number;
+                        columnNumber += 1;
                         counter = 0;
-                        i = 0;
-                        j = 0;
-                        cleanSquare3x3(field);
-                        columnNumber = ((field - 1) / 3) * 3;
-                        rowNumber = ((field + 2) % 3) * 3;
+                    } else {
+                        j--;
+                        counter += 1;
+                        if (counter == 40) {
+                            counter = 0;
+                            i = 0;
+                            j = 0;
+                            cleanSquare3x3(field);
+                            columnNumber = ((field - 1) / 3) * 3;
+                            rowNumber = ((field + 2) % 3) * 3;
+                        }
                     }
-                }
+                } continue;
             }
 
 
@@ -211,7 +301,7 @@ public class SudokuArray {
             for (int j = 0; j < 3; j++) {
 
                 tempArray[rowNumber][columnNumber] = 0;
-                finalArray[rowNumber][columnNumber] = 0;
+//                finalArray[rowNumber][columnNumber] = 0;
                 columnNumber += 1;
             }
 
@@ -447,3 +537,16 @@ public class SudokuArray {
                                     }
                                     }
                                     } */
+
+//            9 1 3 |5   7 |2 6 4 |
+//            2 5 8 |4 6 1 |3 7 9 |
+//            7 4 6 |      |8 1 5 |
+//            ---------------------
+//            8   1 |6 5 9 |7   2 |
+//                  |1   3 |9   6 |
+//            6   9 |      |5   1 |
+//            ---------------------
+//            3 6   |      |1 9   |
+//            1 9   |8   6 |  5 7 |
+//              8   |  1   |  2   |
+//            ---------------------

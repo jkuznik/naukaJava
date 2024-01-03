@@ -11,14 +11,18 @@ public class Main {
         int setDifficult;
         Scanner scanner = new Scanner(System.in);
 
+
+        firstSudo.setValue();
+
         firstSudo.generateSudoku();
+        firstSudo.getTempArray();
 
         System.out.println("\nPodaj na jakim poziomie trudności chcesz grać? [30-55]");
         // dopisać sprawdzanie czy poprawnie wybrano poziom trudności
         setDifficult = scanner.nextInt();
         scanner.nextLine();
 
-        firstSudo.getTempArray();
+//        firstSudo.getTempArray();
 
         System.out.println();
         System.out.println();
