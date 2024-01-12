@@ -1,4 +1,4 @@
-package jnsp.modul6.e36Exercise.exercise1;
+package jnsp.modul6.e36Exercise;
 
 import java.time.LocalDate;
 

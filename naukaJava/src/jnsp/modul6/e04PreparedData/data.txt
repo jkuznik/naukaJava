@@ -5,7 +5,7 @@ IS_ACTIV: tak;
 
 USER_NAME: Julia;
 AGE: 7;
-SKILLS: Pisać, czytać, liczyć;
+SKILLS: Pisanie, czytanie, liczenie;
 IS_ACTIV: tak;
 
 USER_NAME: Kuba;
@@ -21,5 +21,10 @@ IS_ACTIV: tak;
 USER_NAME: Neo;
 AGE: 48;
 SKILLS: Hakowanie, latanie;
+IS_ACTIV: nie;
+
+USER_NAME: Michał;
+AGE: 26;
+SKILLS: Java, Python;
 IS_ACTIV: nie;
 

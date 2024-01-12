@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Main {
+public class WrongVersion {
     public static void main(String[] args) {
 
         List<UserActivity> records = DataFormater.formatToRecord();

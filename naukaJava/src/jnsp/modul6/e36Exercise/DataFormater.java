@@ -1,18 +1,17 @@
-package jnsp.modul6.e36Exercise.exercise1;
+package jnsp.modul6.e36Exercise;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DataFormater {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static LocalDate date;
 
-    public static List<UserActivity> formatToRecord(Path path) {
-        List<String> inputData = FileReader.openFile(path);
+    public static List<UserActivity> formatToRecord() {
+        List<String> inputData = FileReader.openFile();
 
         List<UserActivity> records = inputData.stream()
                 .map(line -> {

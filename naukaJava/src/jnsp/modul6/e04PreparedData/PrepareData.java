@@ -1,4 +1,4 @@
-package jnsp.modul6.e04;
+package jnsp.modul6.e04PreparedData;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,7 +16,7 @@ public class PrepareData {
         Scanner scanner = new Scanner(System.in);
 
         List<String> lines = new ArrayList<>();
-        Path path = Paths.get("src/jnsp/modul6/e04/data.txt");
+        Path path = Paths.get("src/jnsp/modul6/e04PreparedData/data.txt");
 
         do{
             System.out.println("Wprowadź użytkownika:");

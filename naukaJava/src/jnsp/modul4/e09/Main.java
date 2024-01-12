@@ -20,5 +20,9 @@ public class Main {
         System.out.println(potega3Liczby.potegowanie(3));
         System.out.println(potega4Liczby.potegowanie(3));
 
+        YoungMan youngMan = new YoungMan();
+
+        youngMan.live();
+
     }
 }
