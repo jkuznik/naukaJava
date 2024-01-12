@@ -1,0 +1,25 @@
+USER_NAME: Janusz;
+AGE: 34;
+SKILLS: Operator ładowarki, prawo jazdy, j. angielski;
+IS_ACTIV: tak;
+
+USER_NAME: Julia;
+AGE: 7;
+SKILLS: Pisać, czytać, liczyć;
+IS_ACTIV: tak;
+
+USER_NAME: Kuba;
+AGE: 6;
+SKILLS: Liczenie, czytanie, układanie klocków;
+IS_ACTIV: tak;
+
+USER_NAME: Klaudia;
+AGE: 28;
+SKILLS: Instruktor pływania, instruktor jeździectwa, j. angielski;
+IS_ACTIV: tak;
+
+USER_NAME: Neo;
+AGE: 48;
+SKILLS: Hakowanie, latanie;
+IS_ACTIV: nie;
+
