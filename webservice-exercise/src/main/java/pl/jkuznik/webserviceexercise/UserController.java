@@ -38,8 +38,6 @@ public class UserController {
         List<User> currentUsersList = getUserList();
         User responseUser = null;
 
-        if(!isUserIdValid(id)) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseUser);
-
         for (User user : currentUsersList) {
             if (user.id() == id) responseUser = user;
         }
@@ -50,9 +48,6 @@ public class UserController {
     @PostMapping("/users")
     @ResponseBody
     public ResponseEntity<String> addUser(@RequestBody User requestUser, UriComponentsBuilder uriComponentsBuilder) {
-
-//        File file = new File(filePath);
-//        ObjectWriter writer = getWriter();
 
         List<User> currentUsersList = getUserList();
         List<User> newUsersList = new ArrayList<>(currentUsersList);
@@ -67,13 +62,6 @@ public class UserController {
         }
 
         writeToFile(newUsersList);
-//        try (SequenceWriter sequenceWriter = writer.writeValues(file)) {
-//            sequenceWriter.writeAll(newUsersList);
-//        } catch (IOException e) {
-//            System.out.println("Błąd zapisu pliku, nie dodano użytkownika");
-//            e.printStackTrace();
-//            throw new NoSuchElementException(e);
-//        }
 
         String newResourceUri = uriComponentsBuilder
                 .path("/users/{id}")
