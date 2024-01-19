@@ -15,6 +15,4 @@ id,name,age,isMale
 17,Maria,54,false
 18,Antoni,15,true
 19,Marek,15,true
-20,,,true
-21,,4,true
-22,,4,true
+20,Janek,23,true

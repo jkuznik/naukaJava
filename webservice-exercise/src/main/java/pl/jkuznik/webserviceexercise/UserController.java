@@ -51,8 +51,8 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> addUser(@RequestBody User requestUser, UriComponentsBuilder uriComponentsBuilder) {
 
-        File file = new File(filePath);
-        ObjectWriter writer = getWriter();
+//        File file = new File(filePath);
+//        ObjectWriter writer = getWriter();
 
         List<User> currentUsersList = getUserList();
         List<User> newUsersList = new ArrayList<>(currentUsersList);
@@ -66,13 +66,14 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
         }
 
-        try (SequenceWriter sequenceWriter = writer.writeValues(file)) {
-            sequenceWriter.writeAll(newUsersList);
-        } catch (IOException e) {
-            System.out.println("Błąd zapisu pliku, nie dodano użytkownika");
-            e.printStackTrace();
-            throw new NoSuchElementException(e);
-        }
+        writeToFile(newUsersList);
+//        try (SequenceWriter sequenceWriter = writer.writeValues(file)) {
+//            sequenceWriter.writeAll(newUsersList);
+//        } catch (IOException e) {
+//            System.out.println("Błąd zapisu pliku, nie dodano użytkownika");
+//            e.printStackTrace();
+//            throw new NoSuchElementException(e);
+//        }
 
         String newResourceUri = uriComponentsBuilder
                 .path("/users/{id}")
@@ -88,13 +89,6 @@ public class UserController {
 
         if(!isUserIdValid(id)) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(requestUser);
 
-        if(!isRequestDataValid(requestUser)) {
-            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
-        }
-
-        File file = new File(filePath);
-        ObjectWriter writer = getWriter();
-
         List<User> currentUsersList = getUserList();
         List<User> newUsersList = new ArrayList<>();
         User newUser = null;
@@ -106,13 +100,11 @@ public class UserController {
             } else newUsersList.add(user);
         }
 
-        try (SequenceWriter sequenceWriter = writer.writeValues(file)) {
-            sequenceWriter.writeAll(newUsersList);
-        } catch (IOException e) {
-            System.out.println("Błąd zapisu pliku, nie dodano użytkownika");
-            e.printStackTrace();
-            throw new NoSuchElementException(e);
+        if(!isRequestDataValid(newUser)) {
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
         }
+
+        writeToFile(newUsersList);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(newUser);
@@ -123,8 +115,6 @@ public class UserController {
 
         if(!isUserIdValid(id)) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(requestUser);
 
-        File file = new File(filePath);
-        ObjectWriter writer = getWriter();
         List<User> currentUsersList = getUserList();
         List<User> newUsersList = new ArrayList<>();
         User responseUser = null;
@@ -152,13 +142,7 @@ public class UserController {
             } else newUsersList.add(currentUser);
         }
 
-        try (SequenceWriter sequenceWriter = writer.writeValues(file)) {
-            sequenceWriter.writeAll(newUsersList);
-        } catch (IOException e) {
-            System.out.println("Błąd zapisu pliku, nie dodano użytkownika");
-            e.printStackTrace();
-            throw new NoSuchElementException(e);
-        }
+        writeToFile(newUsersList);
 
         return ResponseEntity.status(HttpStatus.OK).body(responseUser);
     }
@@ -168,9 +152,6 @@ public class UserController {
 
         if(!isUserIdValid(id)) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        File file = new File(filePath);
-        ObjectWriter writer = getWriter();
-
         List<User> currentUsersList = getUserList();
         List<User> newUsersList = new ArrayList<>();
 
@@ -178,13 +159,7 @@ public class UserController {
             if(user.id() != id) newUsersList.add(user);
         }
 
-        try (SequenceWriter sequenceWriter = writer.writeValues(file)) {
-            sequenceWriter.writeAll(newUsersList);
-        } catch (IOException e) {
-            System.out.println("Błąd zapisu pliku, nie dodano użytkownika");
-            e.printStackTrace();
-            throw new NoSuchElementException(e);
-        }
+        writeToFile(newUsersList);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -267,6 +242,22 @@ public class UserController {
         if (user.isMale() == null || !(user.isMale() instanceof Boolean)) return false;
 
         return true;
+    }
+
+    public void writeToFile(List<User> newUsersList){
+
+        File file = new File(filePath);
+        ObjectWriter writer = getWriter();
+//        List<User> currentUsersList = getUserList();
+        List<User> listToWrite = new ArrayList<>(newUsersList);
+
+        try (SequenceWriter sequenceWriter = writer.writeValues(file)) {
+            sequenceWriter.writeAll(listToWrite);
+        } catch (IOException e) {
+            System.out.println("Błąd zapisu pliku, nie dodano użytkownika");
+            e.printStackTrace();
+            throw new NoSuchElementException(e);
+        }
     }
 
 }
