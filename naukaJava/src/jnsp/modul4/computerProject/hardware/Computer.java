@@ -1,7 +1,8 @@
-package jnsp.modul4.computerProject;
+package jnsp.modul4.computerProject.hardware;
 
 import jnsp.modul4.computerProject.utilites.Utilites;
 import jnsp.modul4.computerProject.drive.Drive;
+import jnsp.modul4.computerProject.utilites.UtilitiesNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ public class Computer {
     private List<Utilites> utilites = new ArrayList<>();
 
     public Computer(Monitor monitor, Drive drive){
-        System.out.println("Created computer with monitor resolution " + monitor.getResolution());
+        System.out.println("Created computer with monitor resolution " + monitor.getResolution() +
+                " and " + drive.getUtiliteName());
     }
 
     public void addUtilites(Utilites newUtilites){
@@ -27,6 +29,15 @@ public class Computer {
             System.out.println((i+1) + " " +allUtilitesList.getUtiliteName() + "\t\t " + allUtilitesList.getType());
             i++;
         }
+    }
 
+    public Utilites getUtiliteByName(String name) throws UtilitiesNotFoundException {
+
+            for (Utilites utility : utilites) {
+                if (utility.getUtiliteName().equals(name)) {
+                    return utility;
+                }
+            }
+            throw new UtilitiesNotFoundException("Utilities with name " + name + " not found");
     }
 }

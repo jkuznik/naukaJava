@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Optional;
+
 @SpringBootApplication
 public class SpringJpaApplication {
 
@@ -16,13 +18,11 @@ public class SpringJpaApplication {
 	public CommandLineRunner runApp(UserRepository userRepository){
 
 		return (args -> {
-			Iterable<User> users = userRepository.findAll();
 
-			for (User user : users){
-				System.out.println(user.getId());
-				System.out.println(user.getDisplayName());
-				System.out.println();
-			}
+			userRepository.save(new Users("admin"));
+
+			Optional<Users> byId = userRepository.findById(1);
+            byId.ifPresent(value -> System.out.println(value.getLogin()));
 		});
 	}
 

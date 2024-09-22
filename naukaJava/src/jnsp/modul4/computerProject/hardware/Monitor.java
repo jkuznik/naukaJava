@@ -1,4 +1,4 @@
-package jnsp.modul4.computerProject;
+package jnsp.modul4.computerProject.hardware;
 
 import jnsp.modul4.computerProject.utilites.Utilites;
 import jnsp.modul4.computerProject.utilites.UtilitesType;
